@@ -7,273 +7,241 @@
 <title>ChatSpace</title>
 
 <style>
-* {
-  box-sizing: border-box;
+:root {
+  --theme: #7188d9;
+  --background: #f5f6fc;
+  --panel: #ffffff;
+  --bubble: #edf0ff;
+  --text: #29334d;
 }
+
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f5f6fc;
-  color: #29334d;
+  background: var(--background);
+  color: var(--text);
 }
 
 header {
-  background: #7188d9;
+  background: var(--theme);
   color: white;
-  padding: 18px 24px;
+  padding: 17px 22px;
   font-size: 25px;
   font-weight: bold;
 }
 
 .app {
   display: flex;
-  min-height: calc(100vh - 65px);
+  min-height: calc(100vh - 60px);
 }
 
 .sidebar {
-  width: 245px;
-  background: white;
-  padding: 20px 14px;
-  border-right: 1px solid #e5e8f2;
+  width: 235px;
+  background: var(--panel);
+  padding: 18px 12px;
+  border-right: 1px solid #e4e7f0;
 }
 
 .sidebar h3 {
-  color: #8792ad;
   font-size: 12px;
-  margin: 18px 10px 10px;
-  letter-spacing: 1px;
+  color: #929bb0;
+  margin: 18px 10px 8px;
 }
 
-.room-button {
+.nav {
   width: 100%;
-  border: none;
+  border: 0;
   background: transparent;
   padding: 12px;
-  margin: 3px 0;
   text-align: left;
   border-radius: 10px;
-  color: #45516d;
-  font-size: 15px;
   cursor: pointer;
+  color: var(--text);
+  font-size: 15px;
+  margin: 2px 0;
 }
 
-.room-button:hover,
-.room-button.active {
-  background: #edf0ff;
-  color: #526cc5;
+.nav:hover, .nav.active {
+  background: var(--bubble);
 }
 
 main {
   flex: 1;
-  padding: 25px;
   min-width: 0;
+  padding: 22px;
 }
 
-.screen {
-  display: none;
-}
+.page { display: none; }
+.page.active { display: block; }
 
-.screen.active {
-  display: block;
-}
-
-.chat-header {
-  background: white;
-  padding: 18px;
+.panel {
+  background: var(--panel);
+  padding: 20px;
   border-radius: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 15px;
 }
 
-.chat-header h2 {
-  margin: 0 0 6px;
-}
+h2 { margin-top: 0; }
 
-.chat-header p {
-  margin: 0;
-  color: #8792ad;
+.muted {
+  color: #8993aa;
   font-size: 14px;
 }
 
 .messages {
-  background: white;
+  background: var(--panel);
   border-radius: 14px;
-  padding: 18px;
+  padding: 16px;
   min-height: 300px;
-  max-height: 55vh;
+  max-height: 52vh;
   overflow-y: auto;
 }
 
 .message {
-  background: #edf0ff;
+  background: var(--bubble);
   padding: 12px 15px;
   border-radius: 12px;
   margin: 10px 0;
-  max-width: 80%;
+  max-width: 85%;
   overflow-wrap: anywhere;
 }
 
 .message strong {
   display: block;
-  color: #526cc5;
   margin-bottom: 5px;
+  color: var(--theme);
 }
 
-.message p {
-  margin: 0;
-}
+.message p { margin: 0; }
 
 .message-form {
   display: flex;
-  gap: 10px;
-  margin-top: 14px;
+  gap: 9px;
+  margin-top: 12px;
 }
 
-.message-form input {
-  flex: 1;
-  min-width: 0;
-  padding: 14px;
+input, textarea, select {
+  font: inherit;
+  padding: 12px;
   border: 1px solid #dce1ef;
-  border-radius: 10px;
-  font-size: 15px;
+  border-radius: 9px;
+  background: var(--panel);
+  color: var(--text);
+  max-width: 100%;
 }
 
-button.primary {
-  border: none;
-  background: #7188d9;
+.message-form input { flex: 1; min-width: 0; }
+
+.primary {
+  border: 0;
+  background: var(--theme);
   color: white;
-  border-radius: 10px;
-  padding: 12px 18px;
+  padding: 12px 17px;
+  border-radius: 9px;
   cursor: pointer;
-  font-size: 14px;
 }
 
-button.primary:hover {
-  background: #5d73c5;
+.secondary {
+  border: 0;
+  background: var(--bubble);
+  color: var(--text);
+  padding: 12px 17px;
+  border-radius: 9px;
+  cursor: pointer;
 }
 
 .profile-card {
-  background: white;
-  padding: 28px;
-  border-radius: 16px;
   max-width: 500px;
   text-align: center;
 }
 
 .avatar {
-  width: 120px;
-  height: 120px;
+  width: 125px;
+  height: 125px;
   border-radius: 50%;
   object-fit: cover;
-  background: #e8efff;
-  display: block;
+  background: var(--bubble);
+  border: 3px solid var(--theme);
   margin: 0 auto 15px;
-  border: 3px solid #e8efff;
+  display: block;
 }
 
-.upload-button {
+.upload {
   display: inline-block;
+  background: var(--bubble);
+  color: var(--text);
   padding: 10px 15px;
-  background: #edf0ff;
-  color: #526cc5;
-  border-radius: 10px;
+  border-radius: 9px;
   cursor: pointer;
   margin-bottom: 18px;
-  font-size: 14px;
-}
-
-.upload-button:hover {
-  background: #dfe5ff;
-}
-
-.profile-card h2 {
-  margin: 8px 0;
-}
-
-.profile-card p {
-  color: #78839d;
 }
 
 .field {
+  margin: 16px 0;
   text-align: left;
-  margin: 15px 0;
 }
 
 .field label {
   display: block;
-  margin-bottom: 7px;
   font-weight: bold;
-  font-size: 14px;
+  margin-bottom: 7px;
 }
 
-.field input,
-.field textarea {
+.field input, .field textarea, .field select {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #dce1ef;
-  border-radius: 9px;
-  font: inherit;
 }
 
 .field textarea {
+  min-height: 90px;
   resize: vertical;
-  min-height: 80px;
 }
 
-.profile-actions {
+.color-options {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 15px;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
 }
 
-.secondary {
-  background: #edf0f7;
-  color: #45516d;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 10px;
+.color-choice {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 3px solid white;
+  outline: 1px solid #ccc;
   cursor: pointer;
 }
 
-.note {
-  font-size: 12px;
-  color: #8993aa;
-  margin-top: 18px;
+.call-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.status {
+  padding: 12px;
+  background: var(--bubble);
+  border-radius: 10px;
+  margin-top: 15px;
 }
 
 .empty {
-  color: #929bb0;
   text-align: center;
+  color: #929bb0;
   padding: 35px 10px;
 }
 
-@media (max-width: 650px) {
-  .app {
-    flex-direction: column;
-  }
-
+@media(max-width:650px) {
+  .app { flex-direction: column; }
   .sidebar {
     width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #e5e8f2;
+    border-right: 0;
+    border-bottom: 1px solid #e4e7f0;
   }
-
-  .sidebar h3 {
-    margin-top: 10px;
-  }
-
-  main {
-    padding: 14px;
-  }
-
-  .message-form {
-    flex-direction: column;
-  }
-
-  .message-form button {
-    padding: 14px;
-  }
+  main { padding: 13px; }
+  .message-form { flex-direction: column; }
 }
 </style>
 </head>
@@ -285,100 +253,144 @@ button.primary:hover {
 <div class="app">
 
 <aside class="sidebar">
-  <h3>CHAT ROOMS</h3>
 
-  <button class="room-button active" onclick="openRoom('lounge', this)">🌸 Main Lounge</button>
-  <button class="room-button" onclick="openRoom('creative', this)">🎨 Creative Corner</button>
-  <button class="room-button" onclick="openRoom('music', this)">🎵 Music Room</button>
-  <button class="room-button" onclick="openRoom('books', this)">📚 Book Nook</button>
-  <button class="room-button" onclick="openRoom('gaming', this)">🎮 Gaming Hub</button>
+<h3>CHAT ROOMS</h3>
+<button class="nav active" onclick="openRoom('lounge',this)">🌸 Main Lounge</button>
+<button class="nav" onclick="openRoom('creative',this)">🎨 Creative Corner</button>
+<button class="nav" onclick="openRoom('music',this)">🎵 Music Room</button>
+<button class="nav" onclick="openRoom('books',this)">📚 Book Nook</button>
+<button class="nav" onclick="openRoom('gaming',this)">🎮 Gaming Hub</button>
 
-  <h3>YOUR SPACE</h3>
+<h3>YOUR SPACE</h3>
+<button class="nav" onclick="showPage('profilePage',this)">👤 My Profile</button>
+<button class="nav" onclick="showPage('settingsPage',this)">⚙️ Settings</button>
 
-  <button class="room-button" onclick="showProfile()">👤 My Profile</button>
 </aside>
 
 <main>
 
-<section class="screen active" id="chatScreen">
+<!-- CHAT PAGE -->
+<section class="page active" id="chatPage">
 
-  <div class="chat-header">
-    <h2 id="roomTitle">🌸 Main Lounge</h2>
-    <p id="roomDescription">A place to chat and meet new people.</p>
-  </div>
+<div class="panel">
+<h2 id="roomTitle">🌸 Main Lounge</h2>
+<p class="muted" id="roomDescription">A place to chat and meet people.</p>
 
-  <div class="messages" id="messages">
-  </div>
+<div class="call-actions">
+<button class="primary" onclick="startCall('Voice')">📞 Voice Call</button>
+<button class="primary" onclick="startCall('Video')">📹 Video Call</button>
+</div>
 
-  <form class="message-form" id="messageForm">
-    <input
-      id="messageInput"
-      type="text"
-      maxlength="500"
-      placeholder="Write a message..."
-      autocomplete="off"
-      required
-    >
-    <button class="primary" type="submit">Send</button>
-  </form>
+<div class="status" id="callStatus">
+Calls are not connected yet. A calling service is needed.
+</div>
+</div>
 
-  <p class="note">
-    Demo mode: messages are stored only in this browser.
-  </p>
+<div class="messages" id="messages"></div>
 
+<form class="message-form" id="messageForm">
+<input id="messageInput" maxlength="500"
+placeholder="Write a message..." required>
+<button class="primary" type="submit">Send</button>
+</form>
+
+<p class="muted">Demo mode: messages are only saved in this browser.</p>
 </section>
 
-<section class="screen" id="profileScreen">
+<!-- PROFILE PAGE -->
+<section class="page" id="profilePage">
 
-  <div class="profile-card">
+<div class="panel profile-card">
 
-    <img
-      id="avatarDisplay"
-      class="avatar"
-      alt="Profile picture"
-    >
+<img id="avatarDisplay" class="avatar" alt="Profile picture">
 
-    <label class="upload-button">
-      📷 Upload Profile Picture
-      <input
-        type="file"
-        id="photoUpload"
-        accept="image/png,image/jpeg,image/webp"
-        hidden
-      >
-    </label>
+<label class="upload">
+📷 Upload Profile Picture
+<input type="file" id="photoUpload"
+accept="image/png,image/jpeg,image/webp" hidden>
+</label>
 
-    <h2 id="nameDisplay">ChatSpace Member</h2>
+<h2 id="nameDisplay">ChatSpace Member</h2>
+<p id="aboutDisplay">Welcome to my profile!</p>
 
-    <p id="aboutDisplay">Welcome to my profile!</p>
+<button class="primary" onclick="editProfile()">✏️ Edit Profile</button>
 
-    <button class="primary" onclick="editProfile()">Edit Profile</button>
+<div id="editArea" hidden>
 
-    <div id="editArea" hidden>
+<div class="field">
+<label for="nameInput">Display Name</label>
+<input id="nameInput" maxlength="30">
+</div>
 
-      <div class="field">
-        <label for="nameInput">Display name</label>
-        <input id="nameInput" maxlength="30">
-      </div>
+<div class="field">
+<label for="aboutInput">About Me</label>
+<textarea id="aboutInput" maxlength="160"></textarea>
+</div>
 
-      <div class="field">
-        <label for="aboutInput">About me</label>
-        <textarea id="aboutInput" maxlength="160"></textarea>
-      </div>
+<button class="primary" onclick="saveProfile()">Save Changes</button>
+<button class="secondary" onclick="cancelEdit()">Cancel</button>
 
-      <div class="profile-actions">
-        <button class="primary" onclick="saveProfile()" type="button">Save</button>
-        <button class="secondary" onclick="cancelEdit()" type="button">Cancel</button>
-      </div>
+</div>
 
-    </div>
+<p class="muted">
+Your profile is currently saved on this browser only.
+</p>
+</div>
+</section>
 
-    <p class="note">
-      Your profile is currently saved only in this browser.
-      Your photo is not shared with other people.
-    </p>
+<!-- SETTINGS PAGE -->
+<section class="page" id="settingsPage">
 
-  </div>
+<div class="panel">
+<h2>⚙️ Settings</h2>
+<p class="muted">Personalise your own ChatSpace experience.</p>
+
+<h3>🎨 Chat Theme</h3>
+<p class="muted">
+Choose a colour. Only your browser will see this theme.
+</p>
+
+<div class="color-options">
+<button class="color-choice" style="background:#7188d9"
+onclick="changeTheme('#7188d9')" aria-label="Blue"></button>
+
+<button class="color-choice" style="background:#df86ad"
+onclick="changeTheme('#df86ad')" aria-label="Pink"></button>
+
+<button class="color-choice" style="background:#65b9a1"
+onclick="changeTheme('#65b9a1')" aria-label="Green"></button>
+
+<button class="color-choice" style="background:#a58bd5"
+onclick="changeTheme('#a58bd5')" aria-label="Purple"></button>
+
+<button class="color-choice" style="background:#e6a15d"
+onclick="changeTheme('#e6a15d')" aria-label="Orange"></button>
+
+<button class="color-choice" style="background:#454b60"
+onclick="changeTheme('#454b60')" aria-label="Dark blue"></button>
+</div>
+
+<div class="field">
+<label for="customColor">Custom theme colour</label>
+<input type="color" id="customColor" value="#7188d9"
+oninput="changeTheme(this.value)">
+</div>
+
+<button class="secondary" onclick="resetTheme()">Reset Theme</button>
+</div>
+
+<div class="panel">
+<h3>🔔 Notifications</h3>
+<p class="muted">Notification settings will be added when accounts are connected.</p>
+</div>
+
+<div class="panel">
+<h3>🔒 Privacy</h3>
+<p class="muted">
+This demo does not have real accounts or private messaging.
+Avoid putting personal information in messages or profile descriptions.
+</p>
+</div>
 
 </section>
 
@@ -387,26 +399,11 @@ button.primary:hover {
 
 <script>
 const rooms = {
-  lounge: {
-    title: "🌸 Main Lounge",
-    description: "A place to chat and meet new people."
-  },
-  creative: {
-    title: "🎨 Creative Corner",
-    description: "Share ideas, art and creativity."
-  },
-  music: {
-    title: "🎵 Music Room",
-    description: "Talk about music you enjoy."
-  },
-  books: {
-    title: "📚 Book Nook",
-    description: "Discuss books and stories."
-  },
-  gaming: {
-    title: "🎮 Gaming Hub",
-    description: "Chat about your favourite games."
-  }
+  lounge: ["🌸 Main Lounge", "A place to chat and meet people."],
+  creative: ["🎨 Creative Corner", "Share your creativity."],
+  music: ["🎵 Music Room", "Talk about music."],
+  books: ["📚 Book Nook", "Discuss books and stories."],
+  gaming: ["🎮 Gaming Hub", "Talk about games."]
 };
 
 let currentRoom = "lounge";
@@ -425,63 +422,129 @@ let roomMessages = {
   gaming: []
 };
 
-function loadSavedData() {
-  try {
-    const savedProfile = localStorage.getItem("chatspaceProfile");
-    const savedMessages = localStorage.getItem("chatspaceMessages");
+let currentTheme = "#7188d9";
 
-    if (savedProfile) {
-      const parsed = JSON.parse(savedProfile);
-      if (parsed && typeof parsed === "object") {
-        profile = {
-          ...profile,
-          name: typeof parsed.name === "string" ? parsed.name : profile.name,
-          photo: typeof parsed.photo === "string" ? parsed.photo : "",
-          about: typeof parsed.about === "string" ? parsed.about : profile.about
-        };
-      }
+function loadData() {
+  try {
+    const savedProfile = JSON.parse(
+      localStorage.getItem("chatspaceProfile") || "null"
+    );
+
+    if (savedProfile && typeof savedProfile === "object") {
+      profile.name = typeof savedProfile.name === "string"
+        ? savedProfile.name : profile.name;
+      profile.photo = typeof savedProfile.photo === "string"
+        ? savedProfile.photo : "";
+      profile.about = typeof savedProfile.about === "string"
+        ? savedProfile.about : profile.about;
     }
 
-    if (savedMessages) {
-      const parsed = JSON.parse(savedMessages);
+    const savedMessages = JSON.parse(
+      localStorage.getItem("chatspaceMessages") || "null"
+    );
 
-      if (parsed && typeof parsed === "object") {
-        for (const room of Object.keys(rooms)) {
-          if (Array.isArray(parsed[room])) {
-            roomMessages[room] = parsed[room].filter(message =>
-              message &&
-              typeof message.name === "string" &&
-              typeof message.text === "string"
-            );
-          }
+    if (savedMessages && typeof savedMessages === "object") {
+      for (const room of Object.keys(rooms)) {
+        if (Array.isArray(savedMessages[room])) {
+          roomMessages[room] = savedMessages[room].filter(
+            m => m && typeof m.name === "string" &&
+            typeof m.text === "string"
+          );
         }
       }
     }
+
+    const savedTheme = localStorage.getItem("chatspaceTheme");
+    if (savedTheme && /^#[0-9a-f]{6}$/i.test(savedTheme)) {
+      currentTheme = savedTheme;
+    }
   } catch (error) {
-    console.log("Could not load saved ChatSpace data.");
+    console.log("Could not load saved data.");
   }
+
+  applyTheme();
 }
 
-function saveProfileData() {
-  try {
-    localStorage.setItem("chatspaceProfile", JSON.stringify(profile));
-    return true;
-  } catch (error) {
-    alert("Your profile could not be saved in this browser.");
-    return false;
-  }
+function showPage(id, button) {
+  document.querySelectorAll(".page").forEach(page =>
+    page.classList.remove("active")
+  );
+
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll(".nav").forEach(item =>
+    item.classList.remove("active")
+  );
+
+  if (button) button.classList.add("active");
 }
 
-function saveMessages() {
+function openRoom(room, button) {
+  currentRoom = room;
+
+  showPage("chatPage", button);
+
+  document.getElementById("roomTitle").textContent = rooms[room][0];
+  document.getElementById("roomDescription").textContent = rooms[room][1];
+
+  displayMessages();
+}
+
+function displayMessages() {
+  const area = document.getElementById("messages");
+  area.replaceChildren();
+
+  if (!roomMessages[currentRoom].length) {
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "It's quiet here... Start a conversation! 🌷";
+    area.appendChild(empty);
+    return;
+  }
+
+  roomMessages[currentRoom].forEach(message => {
+    const bubble = document.createElement("div");
+    bubble.className = "message";
+
+    const name = document.createElement("strong");
+    name.textContent = message.name;
+
+    const content = document.createElement("p");
+    content.textContent = message.text;
+
+    bubble.append(name, content);
+    area.appendChild(bubble);
+  });
+
+  area.scrollTop = area.scrollHeight;
+}
+
+document.getElementById("messageForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const input = document.getElementById("messageInput");
+  const message = input.value.trim();
+
+  if (!message) return;
+
+  roomMessages[currentRoom].push({
+    name: profile.name,
+    text: message
+  });
+
   try {
     localStorage.setItem("chatspaceMessages", JSON.stringify(roomMessages));
   } catch (error) {
-    alert("Your messages could not be saved.");
+    alert("Messages could not be saved in this browser.");
   }
-}
+
+  input.value = "";
+  displayMessages();
+});
 
 function displayProfile() {
   document.getElementById("nameDisplay").textContent = profile.name;
+  document.getElementById("aboutDisplay").textContent = profile.about;
 
   const avatar = document.getElementById("avatarDisplay");
 
@@ -494,99 +557,11 @@ function displayProfile() {
   }
 
   avatar.alt = profile.name + "'s profile picture";
-
-  document.getElementById("aboutDisplay").textContent = profile.about;
 }
-
-function showScreen(screenId) {
-  document.querySelectorAll(".screen").forEach(screen => {
-    screen.classList.remove("active");
-  });
-
-  document.getElementById(screenId).classList.add("active");
-}
-
-function showProfile() {
-  showScreen("profileScreen");
-
-  document.querySelectorAll(".room-button").forEach(button => {
-    button.classList.remove("active");
-  });
-
-  displayProfile();
-}
-
-function openRoom(room, button) {
-  currentRoom = room;
-
-  showScreen("chatScreen");
-
-  document.querySelectorAll(".room-button").forEach(item => {
-    item.classList.remove("active");
-  });
-
-  button.classList.add("active");
-
-  document.getElementById("roomTitle").textContent = rooms[room].title;
-  document.getElementById("roomDescription").textContent = rooms[room].description;
-
-  displayMessages();
-}
-
-function displayMessages() {
-  const area = document.getElementById("messages");
-  area.replaceChildren();
-
-  const messages = roomMessages[currentRoom];
-
-  if (!messages.length) {
-    const empty = document.createElement("div");
-    empty.className = "empty";
-    empty.textContent = "It's quiet here... Start a conversation! 🌷";
-    area.appendChild(empty);
-    return;
-  }
-
-  messages.forEach(message => {
-    const bubble = document.createElement("div");
-    bubble.className = "message";
-
-    const name = document.createElement("strong");
-    name.textContent = message.name;
-
-    const content = document.createElement("p");
-    content.textContent = message.text;
-
-    bubble.appendChild(name);
-    bubble.appendChild(content);
-    area.appendChild(bubble);
-  });
-
-  area.scrollTop = area.scrollHeight;
-}
-
-document.getElementById("messageForm").addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  const input = document.getElementById("messageInput");
-  const text = input.value.trim();
-
-  if (!text) return;
-
-  roomMessages[currentRoom].push({
-    name: profile.name,
-    text: text
-  });
-
-  saveMessages();
-  input.value = "";
-  displayMessages();
-});
 
 function editProfile() {
   document.getElementById("nameInput").value = profile.name;
   document.getElementById("aboutInput").value = profile.about;
-
   document.getElementById("editArea").hidden = false;
 }
 
@@ -602,9 +577,13 @@ function saveProfile() {
   profile.name = name;
   profile.about = about || "Welcome to my profile!";
 
-  saveProfileData();
-  displayProfile();
+  try {
+    localStorage.setItem("chatspaceProfile", JSON.stringify(profile));
+  } catch (error) {
+    alert("Profile could not be saved.");
+  }
 
+  displayProfile();
   document.getElementById("editArea").hidden = true;
 }
 
@@ -612,14 +591,13 @@ function cancelEdit() {
   document.getElementById("editArea").hidden = true;
 }
 
-document.getElementById("photoUpload").addEventListener("change", function(event) {
+document.getElementById("photoUpload").addEventListener("change", event => {
   const file = event.target.files[0];
-
   if (!file) return;
 
-  const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+  const allowed = ["image/jpeg", "image/png", "image/webp"];
 
-  if (!allowedTypes.includes(file.type)) {
+  if (!allowed.includes(file.type)) {
     alert("Please choose a JPG, PNG or WEBP picture.");
     event.target.value = "";
     return;
@@ -633,24 +611,57 @@ document.getElementById("photoUpload").addEventListener("change", function(event
 
   const reader = new FileReader();
 
-  reader.onload = function() {
+  reader.onload = () => {
+    const previous = profile.photo;
     profile.photo = reader.result;
 
-    if (saveProfileData()) {
+    try {
+      localStorage.setItem("chatspaceProfile", JSON.stringify(profile));
       displayProfile();
-      alert("Your profile picture has been saved! 🌸");
+      alert("Profile picture updated! 🌸");
+    } catch (error) {
+      profile.photo = previous;
+      alert("This photo is too large to save. Try a smaller picture.");
     }
-  };
-
-  reader.onerror = function() {
-    alert("Sorry, that picture couldn't be opened.");
   };
 
   reader.readAsDataURL(file);
   event.target.value = "";
 });
 
-loadSavedData();
+function changeTheme(color) {
+  if (!/^#[0-9a-f]{6}$/i.test(color)) return;
+
+  currentTheme = color;
+  applyTheme();
+
+  try {
+    localStorage.setItem("chatspaceTheme", color);
+  } catch (error) {
+    alert("Theme could not be saved.");
+  }
+}
+
+function applyTheme() {
+  document.documentElement.style.setProperty("--theme", currentTheme);
+  document.documentElement.style.setProperty(
+    "--bubble",
+    currentTheme + "22"
+  );
+
+  document.getElementById("customColor").value = currentTheme;
+}
+
+function resetTheme() {
+  changeTheme("#7188d9");
+}
+
+function startCall(type) {
+  document.getElementById("callStatus").textContent =
+    type + " calls are not connected yet. Real calls need a secure calling service and user accounts.";
+}
+
+loadData();
 displayProfile();
 displayMessages();
 </script>
