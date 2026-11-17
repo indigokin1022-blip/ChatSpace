@@ -5,281 +5,654 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ChatSpace</title>
+
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #eef2f8;
-  color: #25324a;
+  background: #f5f6fc;
+  color: #29334d;
 }
+
 header {
-  background: #243b63;
+  background: #7188d9;
   color: white;
-  padding: 20px;
+  padding: 18px 24px;
   font-size: 25px;
   font-weight: bold;
 }
-.app { display:flex; min-height:calc(100vh - 68px); }
+
+.app {
+  display: flex;
+  min-height: calc(100vh - 65px);
+}
+
 .sidebar {
-  width:270px;
-  flex-shrink:0;
-  background:white;
-  padding:20px;
-  border-right:1px solid #ddd;
+  width: 245px;
+  background: white;
+  padding: 20px 14px;
+  border-right: 1px solid #e5e8f2;
 }
-.sidebar h3 { color:#71809a; font-size:13px; }
-.room {
-  padding:13px;
-  margin:7px 0;
-  border-radius:10px;
-  cursor:pointer;
+
+.sidebar h3 {
+  color: #8792ad;
+  font-size: 12px;
+  margin: 18px 10px 10px;
+  letter-spacing: 1px;
 }
-.room:hover, .room.active {
-  background:#e8efff;
-  color:#315cb1;
+
+.room-button {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 12px;
+  margin: 3px 0;
+  text-align: left;
+  border-radius: 10px;
+  color: #45516d;
+  font-size: 15px;
+  cursor: pointer;
 }
-.chat { flex:1; min-width:0; display:flex; flex-direction:column; }
+
+.room-button:hover,
+.room-button.active {
+  background: #edf0ff;
+  color: #526cc5;
+}
+
+main {
+  flex: 1;
+  padding: 25px;
+  min-width: 0;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
 .chat-header {
-  padding:20px;
-  background:white;
-  border-bottom:1px solid #ddd;
-  font-weight:bold;
+  background: white;
+  padding: 18px;
+  border-radius: 14px;
+  margin-bottom: 16px;
 }
-.messages { flex:1; padding:20px; overflow-y:auto; }
-.welcome { text-align:center; margin:100px auto; color:#71809a; }
+
+.chat-header h2 {
+  margin: 0 0 6px;
+}
+
+.chat-header p {
+  margin: 0;
+  color: #8792ad;
+  font-size: 14px;
+}
+
+.messages {
+  background: white;
+  border-radius: 14px;
+  padding: 18px;
+  min-height: 300px;
+  max-height: 55vh;
+  overflow-y: auto;
+}
+
 .message {
-  background:white;
-  padding:12px 16px;
-  border-radius:14px;
-  margin:10px 0;
-  max-width:75%;
-  width:fit-content;
-  overflow-wrap:anywhere;
+  background: #edf0ff;
+  padding: 12px 15px;
+  border-radius: 12px;
+  margin: 10px 0;
+  max-width: 80%;
+  overflow-wrap: anywhere;
 }
-.message.mine { background:#dce8ff; margin-left:auto; }
-.composer { display:flex; padding:15px; gap:10px; background:white; }
-input, textarea {
-  width:100%;
-  padding:13px;
-  border:1px solid #ccd5e3;
-  border-radius:10px;
-  font:inherit;
+
+.message strong {
+  display: block;
+  color: #526cc5;
+  margin-bottom: 5px;
 }
-button {
-  border:0;
-  background:#315cb1;
-  color:white;
-  padding:12px 18px;
-  border-radius:10px;
-  cursor:pointer;
+
+.message p {
+  margin: 0;
 }
-button:hover { background:#244889; }
-.secondary { background:#e8efff; color:#315cb1; }
-.secondary:hover { background:#d7e4ff; }
-.screen { display:none; flex:1; padding:25px; overflow-y:auto; }
-.screen.active { display:block; }
+
+.message-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.message-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #dce1ef;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+button.primary {
+  border: none;
+  background: #7188d9;
+  color: white;
+  border-radius: 10px;
+  padding: 12px 18px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button.primary:hover {
+  background: #5d73c5;
+}
+
 .profile-card {
-  max-width:560px;
-  margin:25px auto;
-  background:white;
-  padding:30px;
-  border-radius:18px;
-  box-shadow:0 4px 18px #243b6310;
+  background: white;
+  padding: 28px;
+  border-radius: 16px;
+  max-width: 500px;
+  text-align: center;
 }
+
 .avatar {
-  width:100px;
-  height:100px;
-  border-radius:50%;
-  background:#e8efff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:48px;
-  margin:0 auto 15px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #e8efff;
+  display: block;
+  margin: 0 auto 15px;
+  border: 3px solid #e8efff;
 }
-.profile-name { text-align:center; font-size:25px; margin:10px; }
-.about { color:#64748b; text-align:center; line-height:1.5; }
-.field { margin:18px 0; }
-.field label { display:block; margin-bottom:8px; font-weight:bold; }
-.actions { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px; }
-.note { font-size:12px; color:#71809a; text-align:center; margin-top:20px; }
-@media(max-width:600px) {
-  .sidebar { width:130px; padding:10px; }
-  .room { padding:10px 5px; font-size:13px; }
-  .screen { padding:10px; }
-  .profile-card { padding:20px; }
+
+.upload-button {
+  display: inline-block;
+  padding: 10px 15px;
+  background: #edf0ff;
+  color: #526cc5;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+.upload-button:hover {
+  background: #dfe5ff;
+}
+
+.profile-card h2 {
+  margin: 8px 0;
+}
+
+.profile-card p {
+  color: #78839d;
+}
+
+.field {
+  text-align: left;
+  margin: 15px 0;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dce1ef;
+  border-radius: 9px;
+  font: inherit;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.secondary {
+  background: #edf0f7;
+  color: #45516d;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.note {
+  font-size: 12px;
+  color: #8993aa;
+  margin-top: 18px;
+}
+
+.empty {
+  color: #929bb0;
+  text-align: center;
+  padding: 35px 10px;
+}
+
+@media (max-width: 650px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e5e8f2;
+  }
+
+  .sidebar h3 {
+    margin-top: 10px;
+  }
+
+  main {
+    padding: 14px;
+  }
+
+  .message-form {
+    flex-direction: column;
+  }
+
+  .message-form button {
+    padding: 14px;
+  }
 }
 </style>
 </head>
+
 <body>
 
 <header>💬 ChatSpace</header>
 
 <div class="app">
-  <aside class="sidebar">
-    <h3>CHAT ROOMS</h3>
-    <div class="room active" onclick="changeRoom(this,'Main Lounge')">🌸 Main Lounge</div>
-    <div class="room" onclick="changeRoom(this,'Creative Corner')">🎨 Creative Corner</div>
-    <div class="room" onclick="changeRoom(this,'Music Room')">🎵 Music Room</div>
-    <div class="room" onclick="changeRoom(this,'Book Nook')">📚 Book Nook</div>
-    <div class="room" onclick="changeRoom(this,'Gaming Hub')">🎮 Gaming Hub</div>
-    <hr>
-    <h3>YOUR SPACE</h3>
-    <div class="room" onclick="showProfile()">👤 My Profile</div>
-    <div class="room" onclick="showProfile()">⚙️ Settings</div>
-  </aside>
 
-  <main class="chat" id="chatScreen">
-    <div class="chat-header" id="roomTitle">🌸 Main Lounge</div>
-    <div class="messages" id="messages">
-      <div class="welcome">
-        <h2>Welcome to ChatSpace! ✨</h2>
-        <p>Your corner to chat, connect and share ideas.</p>
-        <p>Choose a room and say hello!</p>
+<aside class="sidebar">
+  <h3>CHAT ROOMS</h3>
+
+  <button class="room-button active" onclick="openRoom('lounge', this)">🌸 Main Lounge</button>
+  <button class="room-button" onclick="openRoom('creative', this)">🎨 Creative Corner</button>
+  <button class="room-button" onclick="openRoom('music', this)">🎵 Music Room</button>
+  <button class="room-button" onclick="openRoom('books', this)">📚 Book Nook</button>
+  <button class="room-button" onclick="openRoom('gaming', this)">🎮 Gaming Hub</button>
+
+  <h3>YOUR SPACE</h3>
+
+  <button class="room-button" onclick="showProfile()">👤 My Profile</button>
+</aside>
+
+<main>
+
+<section class="screen active" id="chatScreen">
+
+  <div class="chat-header">
+    <h2 id="roomTitle">🌸 Main Lounge</h2>
+    <p id="roomDescription">A place to chat and meet new people.</p>
+  </div>
+
+  <div class="messages" id="messages">
+  </div>
+
+  <form class="message-form" id="messageForm">
+    <input
+      id="messageInput"
+      type="text"
+      maxlength="500"
+      placeholder="Write a message..."
+      autocomplete="off"
+      required
+    >
+    <button class="primary" type="submit">Send</button>
+  </form>
+
+  <p class="note">
+    Demo mode: messages are stored only in this browser.
+  </p>
+
+</section>
+
+<section class="screen" id="profileScreen">
+
+  <div class="profile-card">
+
+    <img
+      id="avatarDisplay"
+      class="avatar"
+      alt="Profile picture"
+    >
+
+    <label class="upload-button">
+      📷 Upload Profile Picture
+      <input
+        type="file"
+        id="photoUpload"
+        accept="image/png,image/jpeg,image/webp"
+        hidden
+      >
+    </label>
+
+    <h2 id="nameDisplay">ChatSpace Member</h2>
+
+    <p id="aboutDisplay">Welcome to my profile!</p>
+
+    <button class="primary" onclick="editProfile()">Edit Profile</button>
+
+    <div id="editArea" hidden>
+
+      <div class="field">
+        <label for="nameInput">Display name</label>
+        <input id="nameInput" maxlength="30">
       </div>
+
+      <div class="field">
+        <label for="aboutInput">About me</label>
+        <textarea id="aboutInput" maxlength="160"></textarea>
+      </div>
+
+      <div class="profile-actions">
+        <button class="primary" onclick="saveProfile()" type="button">Save</button>
+        <button class="secondary" onclick="cancelEdit()" type="button">Cancel</button>
+      </div>
+
     </div>
-    <form class="composer" id="messageForm">
-      <input id="messageInput" placeholder="Write a message..." maxlength="500" autocomplete="off">
-      <button type="submit">Send</button>
-    </form>
-  </main>
 
-  <section class="screen" id="profileScreen">
-    <button class="secondary" onclick="backToChats()">← Back to chats</button>
+    <p class="note">
+      Your profile is currently saved only in this browser.
+      Your photo is not shared with other people.
+    </p>
 
-    <div class="profile-card">
-      <div class="avatar" id="avatarDisplay">🌸</div>
-      <h2 class="profile-name" id="nameDisplay">ChatSpace Member</h2>
-      <p class="about" id="aboutDisplay">Welcome to my profile!</p>
+  </div>
 
-      <div class="actions">
-        <button onclick="editProfile()">✏️ Edit Profile</button>
-      </div>
+</section>
 
-      <div id="editArea" style="display:none">
-        <hr>
-        <div class="field">
-          <label for="username">Display name</label>
-          <input id="username" maxlength="30" placeholder="Choose a display name">
-        </div>
-        <div class="field">
-          <label for="avatarInput">Choose an avatar emoji</label>
-          <input id="avatarInput" maxlength="4" placeholder="🌸">
-        </div>
-        <div class="field">
-          <label for="aboutInput">About me</label>
-          <textarea id="aboutInput" maxlength="160" rows="3" placeholder="Write something about yourself..."></textarea>
-        </div>
-        <div class="actions">
-          <button onclick="saveProfile()">Save Changes</button>
-          <button class="secondary" onclick="cancelEdit()">Cancel</button>
-        </div>
-      </div>
-
-      <p class="note">Demo profile: changes are saved only in this browser on this device. Don't include private personal information.</p>
-    </div>
-  </section>
+</main>
 </div>
 
 <script>
-let currentRoom = "Main Lounge";
-const roomMessages = {};
+const rooms = {
+  lounge: {
+    title: "🌸 Main Lounge",
+    description: "A place to chat and meet new people."
+  },
+  creative: {
+    title: "🎨 Creative Corner",
+    description: "Share ideas, art and creativity."
+  },
+  music: {
+    title: "🎵 Music Room",
+    description: "Talk about music you enjoy."
+  },
+  books: {
+    title: "📚 Book Nook",
+    description: "Discuss books and stories."
+  },
+  gaming: {
+    title: "🎮 Gaming Hub",
+    description: "Chat about your favourite games."
+  }
+};
+
+let currentRoom = "lounge";
 
 let profile = {
   name: "ChatSpace Member",
-  avatar: "🌸",
+  photo: "",
   about: "Welcome to my profile!"
 };
 
-function changeRoom(element, room) {
-  currentRoom = room;
-  document.querySelectorAll(".room").forEach(r => r.classList.remove("active"));
-  element.classList.add("active");
-  document.getElementById("chatScreen").style.display = "flex";
-  document.getElementById("profileScreen").classList.remove("active");
-  document.getElementById("roomTitle").textContent = room;
-  renderMessages();
+let roomMessages = {
+  lounge: [],
+  creative: [],
+  music: [],
+  books: [],
+  gaming: []
+};
+
+function loadSavedData() {
+  try {
+    const savedProfile = localStorage.getItem("chatspaceProfile");
+    const savedMessages = localStorage.getItem("chatspaceMessages");
+
+    if (savedProfile) {
+      const parsed = JSON.parse(savedProfile);
+      if (parsed && typeof parsed === "object") {
+        profile = {
+          ...profile,
+          name: typeof parsed.name === "string" ? parsed.name : profile.name,
+          photo: typeof parsed.photo === "string" ? parsed.photo : "",
+          about: typeof parsed.about === "string" ? parsed.about : profile.about
+        };
+      }
+    }
+
+    if (savedMessages) {
+      const parsed = JSON.parse(savedMessages);
+
+      if (parsed && typeof parsed === "object") {
+        for (const room of Object.keys(rooms)) {
+          if (Array.isArray(parsed[room])) {
+            roomMessages[room] = parsed[room].filter(message =>
+              message &&
+              typeof message.name === "string" &&
+              typeof message.text === "string"
+            );
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.log("Could not load saved ChatSpace data.");
+  }
 }
 
-function renderMessages() {
+function saveProfileData() {
+  try {
+    localStorage.setItem("chatspaceProfile", JSON.stringify(profile));
+    return true;
+  } catch (error) {
+    alert("Your profile could not be saved in this browser.");
+    return false;
+  }
+}
+
+function saveMessages() {
+  try {
+    localStorage.setItem("chatspaceMessages", JSON.stringify(roomMessages));
+  } catch (error) {
+    alert("Your messages could not be saved.");
+  }
+}
+
+function displayProfile() {
+  document.getElementById("nameDisplay").textContent = profile.name;
+
+  const avatar = document.getElementById("avatarDisplay");
+
+  if (profile.photo) {
+    avatar.src = profile.photo;
+    avatar.style.visibility = "visible";
+  } else {
+    avatar.removeAttribute("src");
+    avatar.style.visibility = "hidden";
+  }
+
+  avatar.alt = profile.name + "'s profile picture";
+
+  document.getElementById("aboutDisplay").textContent = profile.about;
+}
+
+function showScreen(screenId) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+
+  document.getElementById(screenId).classList.add("active");
+}
+
+function showProfile() {
+  showScreen("profileScreen");
+
+  document.querySelectorAll(".room-button").forEach(button => {
+    button.classList.remove("active");
+  });
+
+  displayProfile();
+}
+
+function openRoom(room, button) {
+  currentRoom = room;
+
+  showScreen("chatScreen");
+
+  document.querySelectorAll(".room-button").forEach(item => {
+    item.classList.remove("active");
+  });
+
+  button.classList.add("active");
+
+  document.getElementById("roomTitle").textContent = rooms[room].title;
+  document.getElementById("roomDescription").textContent = rooms[room].description;
+
+  displayMessages();
+}
+
+function displayMessages() {
   const area = document.getElementById("messages");
-  area.innerHTML = "";
-  const messages = roomMessages[currentRoom] || [];
+  area.replaceChildren();
+
+  const messages = roomMessages[currentRoom];
 
   if (!messages.length) {
-    area.innerHTML = '<div class="welcome"><h2>Welcome to ' +
-      currentRoom + '! ✨</h2><p>Start the conversation.</p></div>';
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "It's quiet here... Start a conversation! 🌷";
+    area.appendChild(empty);
     return;
   }
 
-  messages.forEach(text => {
+  messages.forEach(message => {
     const bubble = document.createElement("div");
-    bubble.className = "message mine";
-    bubble.textContent = text;
+    bubble.className = "message";
+
+    const name = document.createElement("strong");
+    name.textContent = message.name;
+
+    const content = document.createElement("p");
+    content.textContent = message.text;
+
+    bubble.appendChild(name);
+    bubble.appendChild(content);
     area.appendChild(bubble);
   });
+
   area.scrollTop = area.scrollHeight;
 }
 
 document.getElementById("messageForm").addEventListener("submit", function(event) {
   event.preventDefault();
-  const input = document.getElementById("messageInput");
-  const message = input.value.trim();
-  if (!message) return;
 
-  if (!roomMessages[currentRoom]) roomMessages[currentRoom] = [];
-  roomMessages[currentRoom].push(message);
+  const input = document.getElementById("messageInput");
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  roomMessages[currentRoom].push({
+    name: profile.name,
+    text: text
+  });
+
+  saveMessages();
   input.value = "";
-  renderMessages();
+  displayMessages();
 });
 
-function showProfile() {
-  document.getElementById("chatScreen").style.display = "none";
-  document.getElementById("profileScreen").classList.add("active");
-  document.querySelectorAll(".room").forEach(r => r.classList.remove("active"));
-  displayProfile();
-}
-
-function backToChats() {
-  document.getElementById("profileScreen").classList.remove("active");
-  document.getElementById("chatScreen").style.display = "flex";
-}
-
-function displayProfile() {
-  document.getElementById("nameDisplay").textContent = profile.name;
-  document.getElementById("avatarDisplay").textContent = profile.avatar;
-  document.getElementById("aboutDisplay").textContent = profile.about;
-}
-
 function editProfile() {
-  document.getElementById("editArea").style.display = "block";
-  document.getElementById("username").value = profile.name;
-  document.getElementById("avatarInput").value = profile.avatar;
+  document.getElementById("nameInput").value = profile.name;
   document.getElementById("aboutInput").value = profile.about;
+
+  document.getElementById("editArea").hidden = false;
 }
 
 function saveProfile() {
-  const name = document.getElementById("username").value.trim();
-  const avatar = document.getElementById("avatarInput").value.trim();
+  const name = document.getElementById("nameInput").value.trim();
   const about = document.getElementById("aboutInput").value.trim();
 
   if (!name) {
-    alert("Please enter a display name!");
+    alert("Please enter a display name.");
     return;
   }
 
   profile.name = name;
-  profile.avatar = avatar || "🌸";
   profile.about = about || "Welcome to my profile!";
 
+  saveProfileData();
   displayProfile();
-  document.getElementById("editArea").style.display = "none";
+
+  document.getElementById("editArea").hidden = true;
 }
 
 function cancelEdit() {
-  document.getElementById("editArea").style.display = "none";
+  document.getElementById("editArea").hidden = true;
 }
+
+document.getElementById("photoUpload").addEventListener("change", function(event) {
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+  if (!allowedTypes.includes(file.type)) {
+    alert("Please choose a JPG, PNG or WEBP picture.");
+    event.target.value = "";
+    return;
+  }
+
+  if (file.size > 2 * 1024 * 1024) {
+    alert("Please choose a picture smaller than 2 MB.");
+    event.target.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function() {
+    profile.photo = reader.result;
+
+    if (saveProfileData()) {
+      displayProfile();
+      alert("Your profile picture has been saved! 🌸");
+    }
+  };
+
+  reader.onerror = function() {
+    alert("Sorry, that picture couldn't be opened.");
+  };
+
+  reader.readAsDataURL(file);
+  event.target.value = "";
+});
+
+loadSavedData();
+displayProfile();
+displayMessages();
 </script>
 
 </body>
