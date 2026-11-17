@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatSpace</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef2f8;
+  color: #25324a;
+}
+header {
+  background: #243b63;
+  color: white;
+  padding: 20px;
+  font-size: 25px;
+  font-weight: bold;
+}
+.app {
+  display: flex;
+  height: calc(100vh - 68px);
+}
+.sidebar {
+  width: 270px;
+  background: white;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+.sidebar h3 { color: #71809a; }
+.room {
+  padding: 13px;
+  margin: 7px 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.room:hover, .room.active {
+  background: #e8efff;
+  color: #315cb1;
+}
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.chat-header {
+  padding: 20px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+}
+.messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+.welcome {
+  text-align: center;
+  margin: 100px auto;
+  color: #71809a;
+}
+.message {
+  background: white;
+  padding: 12px 16px;
+  border-radius: 14px;
+  margin: 10px 0;
+  max-width: 75%;
+  width: fit-content;
+  overflow-wrap: anywhere;
+}
+.message.mine {
+  background: #dce8ff;
+  margin-left: auto;
+}
+.sender {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 5px;
+}
+.composer {
+  display: flex;
+  padding: 15px;
+  gap: 10px;
+  background: white;
+}
+input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #ccd5e3;
+  border-radius: 12px;
+  font-size: 15px;
+}
+button {
+  border: none;
+  background: #315cb1;
+  color: white;
+  padding: 0 20px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+button:hover { background: #244889; }
+@media(max-width:600px) {
+  .sidebar { width: 125px; padding: 10px; }
+  .room { padding: 10px 5px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+<header>💬 ChatSpace</header>
+<div class="app">
+  <aside class="sidebar">
+    <h3>CHAT ROOMS</h3>
+    <div class="room active" onclick="changeRoom(this,'Main Lounge')">🌸 Main Lounge</div>
+    <div class="room" onclick="changeRoom(this,'Creative Corner')">🎨 Creative Corner</div>
+    <div class="room" onclick="changeRoom(this,'Music Room')">🎵 Music Room</div>
+    <div class="room" onclick="changeRoom(this,'Book Nook')">📚 Book Nook</div>
+    <div class="room" onclick="changeRoom(this,'Gaming Hub')">🎮 Gaming Hub</div>
+    <hr>
+    <h3>YOUR SPACE</h3>
+    <div class="room">👤 My Profile</div>
+    <div class="room">⚙️ Settings</div>
+  </aside>
+  <main class="chat">
+    <div class="chat-header" id="roomTitle">🌸 Main Lounge</div>
+    <div class="messages" id="messages">
+      <div class="welcome">
+        <h2>Welcome to ChatSpace! ✨</h2>
+        <p>Your corner to chat, connect and share ideas.</p>
+        <p>Choose a room and say hello!</p>
+      </div>
+    </div>
+    <form class="composer" id="messageForm">
+      <input id="messageInput" placeholder="Write a message..." maxlength="500" autocomplete="off">
+      <button type="submit">Send</button>
+    </form>
+  </main>
+</div>
+<script>
+let currentRoom = "Main Lounge";
+const roomMessages = {};
+function changeRoom(element, room) {
+  currentRoom = room;
+  document.querySelectorAll(".room").forEach(r => r.classList.remove("active"));
+  element.classList.add("active");
+  document.getElementById("roomTitle").textContent = room;
+  renderMessages();
+}
+function renderMessages() {
+  const area = document.getElementById("messages");
+  area.innerHTML = "";
+  const messages = roomMessages[currentRoom] || [];
+  if (!messages.length) {
+    area.innerHTML = '<div class="welcome"><h2>Welcome to ' +
+      currentRoom + '! ✨</h2><p>Start the conversation.</p></div>';
+    return;
+  }
+  messages.forEach(text => {
+    const bubble = document.createElement("div");
+    bubble.className = "message mine";
+    bubble.textContent = text;
+    area.appendChild(bubble);
+  });
+  area.scrollTop = area.scrollHeight;
+}
+document.getElementById("messageForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+  const input = document.getElementById("messageInput");
+  const message = input.value.trim();
+  if (!message) return;
+  if (!roomMessages[currentRoom]) roomMessages[currentRoom] = [];
+  roomMessages[currentRoom].push(message);
+  input.value = "";
+  renderMessages();
+});
+</script>
+</body>
+</html>
